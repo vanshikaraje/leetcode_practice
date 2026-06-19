@@ -2,9 +2,11 @@ class Solution {
 public:
     int firstUniqChar(string s) {
         int count [26]={0};
+        // Count frequency of each character
         for(int i =0;i<s.length();i++){
             count[s[i]-'a']++;
         }
+        // Find first character with frequency 1
         for(int i = 0;i<s.length();i++){
             if(count[s[i]-'a']==1)
             return i;
