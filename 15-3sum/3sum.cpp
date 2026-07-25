@@ -1,34 +1,64 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        vector<vector<int>>ans;
-        sort(nums.begin(),nums.end());
-        for(int i = 0;i<nums.size();i++){
-            if(i>0&&nums[i]==nums[i-1])
+     vector<vector<int>> ans;
+
+    // Step 1: Sort the array
+    sort(nums.begin(), nums.end());
+
+    int n = nums.size();
+
+    // Step 2: Fix one element
+    for (int i = 0; i < n - 2; i++) {
+
+        // Skip duplicate first elements
+        if (i > 0 && nums[i] == nums[i - 1]) {
             continue;
-            int left = i+1;
-            int right = nums.size()-1;
+        }
 
-            while(left<right){
-                int sum = nums[i]+nums[left]+nums[right];
+        // Step 3: Two pointers
+        int left = i + 1;
+        int right = n - 1;
 
-                if(sum==0){
-                    ans.push_back({nums[i],nums[left],nums[right]});
+        while (left < right) {
 
-                    while(left<right && nums[left]==nums[left+1])left++;
-                    while(left<right && nums[right]==nums[right-1])right--;
+            int sum = nums[i] + nums[left] + nums[right];
 
-                    left++;
-                    right--;
-                }
-                else if(sum<0){
+            // Found a triplet
+            if (sum == 0) {
+
+                ans.push_back({
+                    nums[i],
+                    nums[left],
+                    nums[right]
+                });
+
                 left++;
+                right--;
+
+                // Skip duplicate left values
+                while (left < right && nums[left] == nums[left - 1]) {
+                    left++;
                 }
-                else{
+
+                // Skip duplicate right values
+                while (left < right && nums[right] == nums[right + 1]) {
                     right--;
                 }
             }
+
+            // Sum is too small
+            else if (sum < 0) {
+                left++;
+            }
+
+            // Sum is too large
+            else {
+                right--;
+            }
         }
-        return ans;
+    }
+
+    return ans;    
     }
 };
